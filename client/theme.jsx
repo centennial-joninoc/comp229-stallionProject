@@ -7,7 +7,7 @@ useNextVariants: true,
 palette: {
 primary: {
 light: '#5c67a3', 
-main: '#3f4771', 
+main: '#283438', 
 dark: '#2e355b', 
 contrastText: '#fff',
 },

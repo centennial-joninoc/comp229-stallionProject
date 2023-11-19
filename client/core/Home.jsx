@@ -27,15 +27,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import unicornbikeImg from './../assets/images/unicornbikeImg.jpg';
+import teamLogoImg from './../assets/images/TeamLogo.png';
 import { Link } from 'react-router-dom';
    
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 600,
+    width: '90%',
     margin: 'auto',
+    backgroundColor: '#283438',
     marginTop: theme.spacing(5),
   },
   title: {
@@ -44,25 +47,30 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     minHeight: 400,
+    backgroundSize: 'contain'
   },
+  content: {
+    textAlign: 'center',
+  },
+  homeBtn: {
+    height: 70,
+    width: 300,
+    margin: 10
+  }
 }));
 
 export default function Home(){ 
 const classes = useStyles()
 return (
 <Card className={classes.card}>
-   
-  <Typography variant="h6" className={classes.title}>Home Page</Typography>
+  <CardMedia className={classes.media} image={teamLogoImg} title="Team Logo"/>
+  <CardContent className={classes.content}>
+    <Button className={classes.homeBtn} variant="contained" href="/addCar">Register your car</Button>
+    <Button className={classes.homeBtn} variant="outlined" color="secondary" size="large">Browse cars</Button> 
 
-
-<CardMedia className={classes.media}
-image={unicornbikeImg} title="Unicorn Bicycle"/>
-<CardContent>
-<Typography variant="body2" component="p"> 
-Welcome to the MERN Skeleton home page.
-</Typography> 
-</CardContent>
+  </CardContent>
 </Card> 
+
 )
 }
 
