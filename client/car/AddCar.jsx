@@ -1,49 +1,194 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import "./AddCar.css";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  CardActions,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { create } from "./api-car";
 
-export default function AddCar() 
-{
-    
-    const [result, setResult] = useState(null);
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 400,
+    margin: "0 auto",
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+    textAlign: "center",
+  },
+  textField: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
+  error: {
+    color: "red",
+  },
+  submit: {
+    margin: "0 auto",
+    marginBottom: theme.spacing(2),
+  },
+  title: {
+    fontSize: 18,
+  },
+}));
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
 
-    const onSubmit = (data) => {
-        setResult(data);
-        console.log(data);
+export default function AddCar() {
+  const classes = useStyles();
+
+  const [values, setValues] = useState({
+    model: "",
+    description: "",
+    year: 0,
+    seats: 0,
+    transmission: "",
+    fuelType: "",
+    mileage: ""
+  });
+
+  const [open, setOpen] = useState(false);
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const clickSubmit = () => {
+    const car = {
+      model: values.model || undefined,
+      description: values.description || undefined,
+      year: values.year || undefined,
+      seats: values.seats || undefined,
+      transmission: values.transmission || undefined,
+      fuelType: values.fuelType || undefined,
+      mileage: values.mileage || undefined,
     };
 
-    return (
-        <div className="form">
-            <h1 className="form_title">New Car</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div class="row">
-                <input type="text" className="input" id="Name" placeholder="Name" {...register("Name", { required: true})}></input>
-                </div>
-            {errors.Name && <div className="input_error">Name cannot be empty.</div>}
-            <div class="row">
-            <input type="text" className="input" id="Description" placeholder="Description" {...register("Desc", { required: true})}></input>
-            </div>
-            {errors.Desc && <div className="input_error">Description cannot be empty.</div>}
-            <div class="row" className="button_row">
-            <button type="submit" className="submit_button">SUBMIT</button>
-            <button type="button" className="cancel_button">CANCEL</button>
-            </div>
-            </form>
-            
-            {result && 
-            <div class="row">
-            <p>Submitted! Please check console log.</p>
-            <p>Name: {result.Name}</p>
-            <p>Description: {result.Desc}</p>
-            </div>}
-        </div>
-    );
+    create(car).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setOpen(true);
+      }
+    });
+  };
+
+  AddCar.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+  };
+
+  return (
+    <div>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography variant="h6" className={classes.title}>
+            Car Register
+          </Typography>
+
+          <TextField
+            id="model"
+            label="Model"
+            className={classes.textField}
+            value={values.model}
+            onChange={handleChange("model")}
+            margin="normal"
+          />
+          <TextField
+            id="description"
+            label="Description"
+            className={classes.textField}
+            value={values.description}
+            onChange={handleChange("description")}
+            margin="normal"
+          />
+          <TextField
+            id="year"
+            label="Year"
+            className={classes.textField}
+            value={values.year}
+            onChange={handleChange("year")}
+            type="number"
+            margin="normal"
+          />
+          <TextField
+            id="seats"
+            label="Seats"
+            className={classes.textField}
+            value={values.seats}
+            onChange={handleChange("seats")}
+            type="number"
+            margin="normal"
+          />
+          <TextField
+            id="transmission"
+            label="Transmission"
+            className={classes.textField}
+            value={values.transmission}
+            onChange={handleChange("transmission")}
+            margin="normal"
+          />
+          <TextField
+            id="fuelType"
+            label="FuelType"
+            className={classes.textField}
+            value={values.fuelType}
+            onChange={handleChange("fuelType")}
+            margin="normal"
+          />
+          <TextField
+            id="mileage"
+            label="Mileage"
+            className={classes.textField}
+            value={values.mileage}
+            onChange={handleChange("mileage")}
+            margin="normal"
+          />
+        </CardContent>
+        <CardActions>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={clickSubmit}
+            className={classes.submit}
+          >
+            Register
+          </Button>
+        </CardActions>
+      </Card>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New Car</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            New car successfully Registered.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Link to="/AddCar">
+            <Button
+              color="primary"
+              autoFocus
+              variant="contained"
+              onClick={handleClose}
+            >
+              Add Car
+            </Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
-
-
