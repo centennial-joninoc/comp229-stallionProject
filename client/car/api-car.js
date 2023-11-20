@@ -1,6 +1,6 @@
 const create = async (car) => {
     try {
-      let response = await fetch("/api/cars/", {
+      let response = await fetch("/api/car/", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -15,7 +15,7 @@ const create = async (car) => {
   };
   const list = async (signal) => {
     try {
-      let response = await fetch("/api/cars/", {
+      let response = await fetch("/api/car/", {
         method: "GET",
   
         signal: signal,
@@ -27,7 +27,7 @@ const create = async (car) => {
   };
   const read = async (params, credentials, signal) => {
     try {
-      let response = await fetch("/api/cars/" + params.carId, {
+      let response = await fetch("/api/car/" + params.carId, {
         method: "GET",
         signal: signal,
         headers: {
@@ -43,7 +43,7 @@ const create = async (car) => {
   };
   const update = async (params, credentials, car) => {
     try {
-      let response = await fetch("/api/cars/" + params.carId, {
+      let response = await fetch("/api/car/" + params.carId, {
         method: "PUT",
         headers: {
           Accept: "application/json",
@@ -57,15 +57,10 @@ const create = async (car) => {
       console.log(err);
     }
   };
-  const remove = async (params, credentials) => {
+  const remove = async (params) => {
     try {
-      let response = await fetch("/api/cars/" + params.carId, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + credentials.t,
-        },
+      let response = await fetch("/api/car/" + params.carId, {
+        method: "DELETE"
       });
       return await response.json();
     } catch (err) {

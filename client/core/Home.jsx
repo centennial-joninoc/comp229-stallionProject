@@ -66,7 +66,7 @@ return (
   <CardMedia className={classes.media} image={teamLogoImg} title="Team Logo"/>
   <CardContent className={classes.content}>
     <Button className={classes.homeBtn} variant="contained" href="/addCar">Register your car</Button>
-    <Button className={classes.homeBtn} variant="outlined" color="secondary" size="large">Browse cars</Button> 
+    <Button className={classes.homeBtn} variant="outlined" color="secondary" size="large" href="/listCar">Browse cars</Button> 
 
   </CardContent>
 </Card> 

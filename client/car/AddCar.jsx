@@ -170,10 +170,10 @@ export default function AddCar() {
       </Card>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Car</DialogTitle>
+        <DialogTitle>Car Registered</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            New car successfully Registered.
+            New car successfully registered.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

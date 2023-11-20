@@ -8,6 +8,8 @@ import Profile from "./user/Profile.jsx";
 import PrivateRoute from "./lib/PrivateRoute.jsx";
 import EditProfile from "./user/EditProfile.jsx";
 import AddCar from "./car/AddCar.jsx";
+import ListCar from "./car/ListCar.jsx";
+import EditCar from "./car/EditCar.jsx";
 import Menu from "./core/Menu";
 function MainRouter() {
   return (
@@ -20,6 +22,15 @@ function MainRouter() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/addCar" element={<AddCar />} />
+        <Route path="/listCar" element={<ListCar />} />
+        <Route
+          path="/listCar/edit/:carId"
+          element={
+            <PrivateRoute>
+              <EditCar />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/user/edit/:userId"
           element={

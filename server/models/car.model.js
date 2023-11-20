@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 var CarSchema = new mongoose.Schema({
   model: String,
@@ -10,4 +10,4 @@ var CarSchema = new mongoose.Schema({
   mileage: String
 });
 
-module.exports = mongoose.model('car', CarSchema)
+export default mongoose.model("Car", CarSchema);
