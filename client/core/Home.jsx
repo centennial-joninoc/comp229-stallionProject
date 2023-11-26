@@ -32,7 +32,7 @@ import Typography from '@material-ui/core/Typography';
 import unicornbikeImg from './../assets/images/unicornbikeImg.jpg';
 import teamLogoImg from './../assets/images/TeamLogo.png';
 import { Link } from 'react-router-dom';
-   
+import auth from '../lib/auth-helper'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -64,11 +64,18 @@ const classes = useStyles()
 return (
 <Card className={classes.card}>
   <CardMedia className={classes.media} image={teamLogoImg} title="Team Logo"/>
-  <CardContent className={classes.content}>
+  {
+    auth.isAuthenticated() && (
+      <span>
+        <CardContent className={classes.content}>
     <Button className={classes.homeBtn} variant="contained" href="/addCar">Register your car</Button>
     <Button className={classes.homeBtn} variant="outlined" color="secondary" size="large" href="/listCar">Browse cars</Button> 
 
   </CardContent>
+      </span>
+    )
+  }
+  
 </Card> 
 
 )

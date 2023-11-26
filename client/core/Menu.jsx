@@ -5,6 +5,10 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import HomeIcon from '@material-ui/icons/Home'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import WebIcon from '@material-ui/icons/Web';
+import PersonIcon from '@material-ui/icons/Person';
 import InputIcon from '@material-ui/icons/Input'
 import Button from '@material-ui/core/Button'
 import auth from '../lib/auth-helper'
@@ -30,12 +34,9 @@ export default function Menu(){
           <HomeIcon/>
         </IconButton>
       </Link>
-      <Link to="/users">
+      {/* <Link to="/users">
         <Button style={isActive(location, "/users")}>Users</Button>
-      </Link>
-      <Link to="/addCar">
-        <Button style={isActive(location, "/addCar")}>Car Register</Button>
-      </Link>
+      </Link> */}
       {
         !auth.isAuthenticated() && (<span>
           <Link to="/signin">
@@ -51,12 +52,23 @@ export default function Menu(){
       }
       {
         auth.isAuthenticated() && (<span>
+          <Link to="/addCar">
+            <Button style={isActive(location, "/addCar")}><BorderColorIcon/>Car Register</Button>
+          </Link>
+          <Link to="/listCar">
+            <Button style={isActive(location, "/listCar")}><WebIcon/>Browse</Button>
+          </Link>
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
-            <Button style={isActive(location, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
+            <Button style={isActive(location, "/user/" + auth.isAuthenticated().user._id)}><PersonIcon/>My Profile</Button>
           </Link>
           <Button color="inherit" onClick={() => {
-               auth.clearJWT(() => navigate('/'));
-            }}>Sign out</Button>
+               auth.clearJWT(() => 
+               {
+                navigate('/');
+                window.location.reload();
+               });
+
+            }}><ExitToAppIcon/>Sign out</Button>
         </span>)
       }
     </Toolbar>
