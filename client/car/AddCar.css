@@ -1,7 +1,6 @@
 .form {
     width: 500px;
     text-align: center;
-    /* margin-bottom: 200px; */
     padding-left: 6%;
     padding-right: 6%;
 }
@@ -12,10 +11,8 @@
 }
 .input_error {
     padding-top: 0px;
-    /* padding-left: 25%; */
     font-size: 1rem;
     color: red;
-    /* text-align: left; */
 }
 
 .input {

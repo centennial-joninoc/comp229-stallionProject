@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 20,
     paddingLeft: 20
   },
+  lease: {
+    paddingTop: 20,
+    paddingLeft: 10
+  },
   root: {
     margin:20
   },
@@ -59,6 +63,7 @@ export default function Cars() {
   const [cars, setCars] = useState([]);
   const [redirectToList, setRedirect] = useState(false);
   const navigate = useNavigate();
+  // const [displayDetail] = false;
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -79,6 +84,10 @@ export default function Cars() {
   const editCar = (carId) => {
     navigate("/listCar/edit/" + carId);
   };
+
+  // const displayDetails = () => {
+  //   displayDetail = true;
+  // };
 
   const deleteCar = (carId) => {
     remove(
@@ -108,7 +117,7 @@ export default function Cars() {
       <Grid container>
         {cars.map((car, i) => {
           return (
-              <Grid xs={3} button key={i}>
+              <Grid item xs={3} button key={i}>
                 <Card className={classes.card} variant="outlined">
                   <CardMedia sx={{ height: 140 }} className={classes.media} image={carImg} title="Car"/>
                   <CardContent>
@@ -133,6 +142,23 @@ export default function Cars() {
                       auth.isAuthenticated() && <span>
                       <Button size="small" variant="contained" className={classes.editBtn} onClick={() => editCar(car._id)}>Edit</Button>
                       <Button size="small" variant="contained" className={classes.deleteBtn} onClick={() => deleteCar(car._id)}>Delete</Button>
+                      </span>
+                    }
+                    {
+                      !auth.isAuthenticated() && <span>
+                      {/* <Button size="small" variant="contained" className={classes.editBtn}>Lease Car Now</Button> */}
+                      <Typography variant="h6" className={classes.lease}>
+                        Lease Information:
+                      </Typography>
+                      </span>
+                    }
+                    </Grid>
+                    <Grid item xs={12}>
+                    {
+                      !auth.isAuthenticated() && <span>
+                      <div><Chip label={"Owner: " + car.owner} variant="outlined" /></div>
+                      <div><Chip label={"Phone No.: " + car.phone} variant="outlined" /></div>
+                      <div><Chip label={"Email: " + car.email} variant="outlined" /></div>
                       </span>
                     }
                     </Grid>

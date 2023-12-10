@@ -6,7 +6,6 @@ const create = async (req, res) => {
   const car = new Car(req.body);
   try {
     await car.save();
-    debugger;
     return res.status(200).json({
       message: "Successfully registered your car!",
     });
@@ -18,7 +17,7 @@ const create = async (req, res) => {
 };
 const list = async (req, res) => {
   try {
-    let cars = await Car.find().select("model description year seats transmission fuelType mileage");
+    let cars = await Car.find().select("model description year seats transmission fuelType mileage email phone owner");
     res.json(cars);
   } catch (err) {
     return res.status(400).json({

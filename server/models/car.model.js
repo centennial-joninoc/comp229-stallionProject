@@ -7,7 +7,10 @@ var CarSchema = new mongoose.Schema({
   seats: Number,
   transmission: String,
   fuelType: String,
-  mileage: String
+  mileage: String,
+  email: String,
+  owner: String,
+  phone: String
 });
 
 export default mongoose.model("Car", CarSchema);

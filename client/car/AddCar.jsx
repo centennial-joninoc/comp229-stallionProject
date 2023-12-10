@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -16,6 +16,9 @@ import {
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { create } from "./api-car";
+import { read } from "./../user/api-user.js";
+import { useParams } from "react-router-dom";
+import auth from "../lib/auth-helper.js";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,6 +47,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCar() {
   const classes = useStyles();
+  const [user, setUser] = useState({});
+  const { userId } = useParams();
+  const jwt = auth.isAuthenticated();
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    
+    read(
+      {
+        userId: auth.isAuthenticated().user._id,
+      },
+      { t: jwt.token },
+      signal
+    ).then((data) => {
+      if (data) {
+        setUser(data);
+      }
+    });
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, [userId]);
 
   const [values, setValues] = useState({
     model: "",
@@ -74,8 +101,10 @@ export default function AddCar() {
       transmission: values.transmission || undefined,
       fuelType: values.fuelType || undefined,
       mileage: values.mileage || undefined,
+      email: auth.isAuthenticated().user.email || undefined,
+      phone: user.phone || undefined,
+      owner: auth.isAuthenticated().user.fname + ' ' + auth.isAuthenticated().user.lname || undefined,
     };
-
     create(car).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
