@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -8,17 +8,18 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import { makeStyles } from '@material-ui/core/styles'
 import auth from './auth-helper.js'
-import {Navigate} from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
-import {signin} from './api-auth.js'
+import { signin } from './api-auth.js'
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 600,
-    margin: 'auto',
-    textAlign: 'center',
+    maxWidth: 800,
+    margin: "0 auto",
     marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2)
+    padding: theme.spacing(2),
+    textAlign: "center",
   },
   error: {
     verticalAlign: 'middle'
@@ -28,14 +29,32 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.openTitle
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 300
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
+  signinTitle: {
+    fontSize: 32,
+    fontFamily: "Verdana"
+  },
+  signinSubTitle: {
+    fontSize: 16,
+    fontFamily: "Verdana",
+    marginTop: theme.spacing(1),
+    fontStyle: "italic"
+  },
+  goToSignupText: {
+    fontSize: 12,
+    fontFamily: "Verdana",
   },
   submit: {
-    margin: 'auto',
-    marginBottom: theme.spacing(2)
-  }
+    margin: "0 auto",
+    width: "98%",
+    height: 50,
+    backgroundColor: "rgb(56, 148, 93)",
+    color: "white",
+    fontFamily: "Verdana",
+    marginBottom: theme.spacing(2),
+  },
 }))
 
 export default function Signin(props) {
@@ -43,10 +62,10 @@ export default function Signin(props) {
   console.log(location.state)
   const classes = useStyles()
   const [values, setValues] = useState({
-      email: '',
-      password: '',
-      error: '',
-      redirectToReferrer: false
+    email: '',
+    password: '',
+    error: '',
+    redirectToReferrer: false
   })
 
   const clickSubmit = () => {
@@ -54,14 +73,14 @@ export default function Signin(props) {
       email: values.email || undefined,
       password: values.password || undefined
     }
-console.log(user)
+    console.log(user)
     signin(user).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error})
+        setValues({ ...values, error: data.error })
       } else {
         console.log(data)
         auth.authenticate(data, () => {
-          setValues({ ...values, error: '',redirectToReferrer: true})
+          setValues({ ...values, error: '', redirectToReferrer: true })
         })
       }
     })
@@ -71,35 +90,57 @@ console.log(user)
     setValues({ ...values, [name]: event.target.value })
   }
 
-  const {from} = location.state || {
-      from: {
-        pathname: '/'
-      }
+  const { from } = location.state || {
+    from: {
+      pathname: '/'
+    }
   }
-  const {redirectToReferrer} = values
+  const { redirectToReferrer } = values
   if (redirectToReferrer) {
-    return <Navigate to={from}/>;
-      
+    return <Navigate to={from} />;
+
   }
 
   return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            Sign In
-          </Typography>
-          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
-              <Icon color="error" className={classes.error}>error</Icon>
-              {values.error}
-            </Typography>)
-          }
-        </CardContent>
-        <CardActions>
-          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-        </CardActions>
-      </Card>
-    )
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography variant="h6" className={classes.signinTitle}>
+          Sign In
+        </Typography>
+        <Typography variant="h6" className={classes.signinSubTitle}>
+          You look familiar..
+        </Typography>
+        <TextField id="email"
+          type="email"
+          label="Email"
+          className={classes.textField}
+          value={values.email}
+          onChange={handleChange('email')}
+          color="secondary"
+          margin="normal" />
+        <TextField id="password"
+          type="password"
+          label="Password"
+          className={classes.textField}
+          value={values.password}
+          onChange={handleChange('password')}
+          color="secondary"
+          margin="normal" />
+        <br /> {
+          values.error && (<Typography component="p" color="error">
+            <Icon color="error" className={classes.error}>error</Icon>
+            {values.error}
+          </Typography>)
+        }
+      </CardContent>
+      <CardActions>
+        <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>LOGIN</Button>
+      </CardActions>
+      <Typography className={classes.goToSignupText} component={Link} to="/signup">
+          Don't have a account yet? Click here to sign up!
+        </Typography>
+    </Card>
+
+    
+  )
 }

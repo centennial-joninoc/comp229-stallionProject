@@ -34,11 +34,17 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: "0 auto",
+    width: "98%",
+    height: 50,
+    backgroundColor: "rgb(56, 148, 93)", 
+    color: "white",
+    fontFamily: "Verdana",
     marginBottom: theme.spacing(2),
   },
   title: {
-    fontSize: 18,
-    textAlign:"left"
+    fontSize: 20,
+    textAlign: "left",
+    width: "48%"
   },
   signupTitle: {
     fontSize: 32,
@@ -47,29 +53,55 @@ const useStyles = makeStyles((theme) => ({
   signupSubTitle: {
     fontSize: 16,
     fontFamily: "Verdana",
+    fontStyle: "italic",
     marginTop: theme.spacing(1),
   },
-  nameTextField:
+  halfTextField:
   {
     width: "48%",
     marginBottom: theme.spacing(2),
-  }
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 }));
 
 
 export default function Signup() {
   const classes = useStyles();
-
+  const [isPasswordIncorrect, setIsPasswordIncorrect] = useState(false);
+  
   const [values, setValues] = useState({
     fname: "",
     lname: "",
     password: "",
+    rePassword: "",
     email: "",
+    phone: "",
+    postal: ""
+  });
+  
+  const [onSumbitEmpty, setSumbitEmpty] = useState({
+    fname: false,
+    lname: false,
+    password: false,
+    rePassword: false,
+    email: false,
+    phone: false,
+    postal: false
   });
 
   const [open, setOpen] = useState(false);
 
   const handleChange = (name) => (event) => {
+    if(name == "rePassword" || name == "password")
+    {
+      var correct = event.target.value == values.password;
+      setIsPasswordIncorrect(!correct);
+    }
     setValues({ ...values, [name]: event.target.value });
   };
 
@@ -78,20 +110,38 @@ export default function Signup() {
   };
 
   const clickSubmit = () => {
+
+    setSumbitEmpty({
+      ...onSumbitEmpty,
+      fname: values.fname == "", // Update the fname property to true
+      lname: values.lname == "", // Update the lname property to false
+      password: values.password == "", // Update the password property to true
+      rePassword: values.rePassword == "", // Update the rePassword property to false
+      email: values.email == "", // Update the email property to true
+      phone: values.phone == "", // Update the phone property to false
+      postal: values.postal == "" // Update the postal property to true
+    });
+
     const user = {
       fname: values.fname || undefined,
       lname: values.lname || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
+      phone: values.phone || undefined,
+      postal: values.postal || undefined,
     };
 
-    create(user).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setOpen(true);
-      }
-    });
+    if(values.fname && values.lname && values.password && values.rePassword && values.password == values.rePassword && values.email && values.phone && values.postal)
+    {
+      create(user).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setOpen(true);
+        }
+      });
+    }
+    
   };
 
   Signup.propTypes = {
@@ -103,48 +153,98 @@ export default function Signup() {
     <div>
       <Card className={classes.card}>
         <CardContent>
-        <Typography  className={classes.signupTitle}>
+          <Typography className={classes.signupTitle}>
             Sign Up
           </Typography>
-          <Typography  className={classes.signupSubTitle}>
+          <Typography className={classes.signupSubTitle}>
             Hey there, fill out this form
           </Typography>
           <div style={{ marginBottom: 50 }} />
+          <div className={classes.row}>
           <TextField
             id="fname"
             label="Enter your first name"
-            className={classes.nameTextField}
+            className={classes.halfTextField}
             value={values.fname}
-            onChange={handleChange("name")}
+            onChange={handleChange("fname")}
             margin="normal"
             variant="outlined"
+            color="secondary"
+            error={onSumbitEmpty.fname}
           /><TextField
-          id="lname"
-          label="Enter your last name"
-          className={classes.nameTextField}
-          value={values.lname}
-          onChange={handleChange("lname")}
-          margin="normal"
-          variant="outlined"
-          style={{ marginLeft: 30 }}
-        />
-          <TextField
-            id="email"
-            label="Email"
-            className={classes.textField}
-            value={values.email}
-            onChange={handleChange("email")}
+            id="lname"
+            label="Enter your last name"
+            className={classes.halfTextField}
+            value={values.lname}
+            onChange={handleChange("lname")}
             margin="normal"
+            variant="outlined"
+            color="secondary"
+            error={onSumbitEmpty.lname}
           />
+          </div>
+          
           <TextField
             id="password"
-            label="Password"
+            label="Enter your password"
             className={classes.textField}
             value={values.password}
             onChange={handleChange("password")}
             type="password"
+            variant="outlined"
+            color="secondary"
             margin="normal"
+            error={onSumbitEmpty.password}
           />
+          <TextField
+            id="confirm-password"
+            label="Enter again your password"
+            className={classes.textField}
+            value={values.rePassword}
+            onChange={handleChange("rePassword")}
+            type="Password"
+            variant="outlined"
+            color="secondary"
+            margin="normal"
+            helperText={isPasswordIncorrect ? "Incorrect password" : ""}
+            error={isPasswordIncorrect || onSumbitEmpty.password}
+          />
+          <TextField
+            id="email"
+            label="Enter your email"
+            className={classes.textField}
+            value={values.email}
+            onChange={handleChange("email")}
+            variant="outlined"
+            color="secondary"
+            margin="normal"
+            error={onSumbitEmpty.email}
+          />
+          <div className={classes.row}>
+          <TextField
+            id="phone"
+            label="Enter your phone number"
+            className={classes.halfTextField}
+            value={values.phone}
+            onChange={handleChange("phone")}
+            margin="normal"
+            type="Number"
+            variant="outlined"
+            color="secondary"
+            error={onSumbitEmpty.phone}
+          /><TextField
+            id="postal"
+            label="Enter your postal code"
+            className={classes.halfTextField}
+            value={values.postal}
+            onChange={handleChange("postal")}
+            margin="normal"
+            variant="outlined"
+            color="secondary"
+            error={onSumbitEmpty.postal}
+          />
+          </div>
+          
         </CardContent>
         <CardActions>
           <Button
