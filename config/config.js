@@ -7,7 +7,7 @@ const config = {
     // "mongodb+srv://Blessing:qzzJjISAcwfPklIo@cluster0.txlxgvp.mongodb.net/Skeleton?retryWrites=true&w=majority" ||
     process.env.MONGO_HOST ||
     "mongodb://" +
-      (process.env.IP || "localhost") +
+      (process.env.IP || "0.0.0.0") +
       ":" +
       (process.env.MONGO_PORT || "27017") +
       "/mernproject",

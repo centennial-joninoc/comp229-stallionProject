@@ -19,9 +19,9 @@ import { create } from "./api-user";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 400,
+    maxWidth: 800,
     margin: "0 auto",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(5),
     padding: theme.spacing(2),
     textAlign: "center",
   },
@@ -38,7 +38,22 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 18,
+    textAlign:"left"
   },
+  signupTitle: {
+    fontSize: 32,
+    fontFamily: "Verdana"
+  },
+  signupSubTitle: {
+    fontSize: 16,
+    fontFamily: "Verdana",
+    marginTop: theme.spacing(1),
+  },
+  nameTextField:
+  {
+    width: "48%",
+    marginBottom: theme.spacing(2),
+  }
 }));
 
 
@@ -46,7 +61,8 @@ export default function Signup() {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    name: "",
+    fname: "",
+    lname: "",
     password: "",
     email: "",
   });
@@ -63,7 +79,8 @@ export default function Signup() {
 
   const clickSubmit = () => {
     const user = {
-      name: values.name || undefined,
+      fname: values.fname || undefined,
+      lname: values.lname || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
@@ -86,18 +103,31 @@ export default function Signup() {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography variant="h6" className={classes.title}>
+        <Typography  className={classes.signupTitle}>
             Sign Up
           </Typography>
-
+          <Typography  className={classes.signupSubTitle}>
+            Hey there, fill out this form
+          </Typography>
+          <div style={{ marginBottom: 50 }} />
           <TextField
-            id="name"
-            label="Name"
-            className={classes.textField}
-            value={values.name}
+            id="fname"
+            label="Enter your first name"
+            className={classes.nameTextField}
+            value={values.fname}
             onChange={handleChange("name")}
             margin="normal"
-          />
+            variant="outlined"
+          /><TextField
+          id="lname"
+          label="Enter your last name"
+          className={classes.nameTextField}
+          value={values.lname}
+          onChange={handleChange("lname")}
+          margin="normal"
+          variant="outlined"
+          style={{ marginLeft: 30 }}
+        />
           <TextField
             id="email"
             label="Email"

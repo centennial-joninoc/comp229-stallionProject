@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 //const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
-  name: {
+  fname: {
+    type: String,
+    trim: true,
+  },
+  lname: {
     type: String,
     trim: true,
   },
