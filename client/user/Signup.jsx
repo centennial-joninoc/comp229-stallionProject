@@ -134,7 +134,8 @@ export default function Signup() {
     if(values.fname && values.lname && values.password && values.rePassword && values.password == values.rePassword && values.email && values.phone && values.postal)
     {
       create(user).then((data) => {
-        if (data.error) {
+        console.log(data);
+        if (!data || data.error) {
           setValues({ ...values, error: data.error });
         } else {
           setOpen(true);
