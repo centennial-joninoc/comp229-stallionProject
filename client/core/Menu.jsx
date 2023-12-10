@@ -13,7 +13,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
 const isActive = (location, path) => {
-  return location.pathname === path ? { color: '#ff4081' } : { color: '#ffffff' };
+  return location.pathname === path ? { color: '#5b9279' } : { color: '#12130f' };
 };
 export default function Menu(){ 
   const navigate = useNavigate();
@@ -22,43 +22,51 @@ export default function Menu(){
   return (
   <AppBar position="static">
     <Toolbar>
-      <Typography variant="h6" color="inherit">
-        CarBNB
-      </Typography>
-      <Link to="/">
-        <IconButton aria-label="Home" style={isActive(location, "/")}>
-          <HomeIcon/>
-        </IconButton>
-      </Link>
-      <Link to="/users">
-        <Button style={isActive(location, "/users")}>Users</Button>
-      </Link>
-      <Link to="/addCar">
-        <Button style={isActive(location, "/addCar")}>Car Register</Button>
-      </Link>
-      {
-        !auth.isAuthenticated() && (<span>
-          <Link to="/signin">
-            <Button style={isActive(location, "/signin")}><InputIcon/> Sign In
-            </Button>
-          </Link>
-          <Link to="/signup">
-            <Button style={isActive(location, "/signup")}><PersonAddIcon/> Sign up
-            </Button>
-          </Link>
+    <Grid container>
+      <Grid item xs={2}>
+        <Typography variant="h3" color="12130f" fontFamily="Merriweather">
+          CarBNB
+        </Typography>
+      </Grid>
+      <Grid item xs={10} container direction="row" justifyContent="flex-end" alignItems="center">
+        <Link to="/">
+          <IconButton aria-label="Home" style={isActive(location, "/")}>
+            <HomeIcon/>
+          </IconButton>
+        </Link>
+        <Link to="/users">
+          <Button style={isActive(location, "/users")}>Users</Button>
+        </Link>
+        <Link to="/addCar">
+          <Button style={isActive(location, "/addCar")}>Car Register</Button>
+        </Link>
+        {
+          !auth.isAuthenticated() && (<span>
+            <Link to="/signin">
+              <Button style={isActive(location, "/signin")}><InputIcon/> Sign In
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button style={isActive(location, "/signup")}><PersonAddIcon/> Sign up
+              </Button>
+            </Link>
 
-        </span>)
-      }
-      {
-        auth.isAuthenticated() && (<span>
-          <Link to={"/user/" + auth.isAuthenticated().user._id}>
-            <Button style={isActive(location, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
-          </Link>
-          <Button color="inherit" onClick={() => {
-               auth.clearJWT(() => navigate('/'));
-            }}>Sign out</Button>
-        </span>)
-      }
+          </span>)
+        }
+        {
+          auth.isAuthenticated() && (<span>
+            <Link to={"/user/" + auth.isAuthenticated().user._id}>
+              <Button style={isActive(location, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
+            </Link>
+            <Button color="inherit" onClick={() => {
+                auth.clearJWT(() => navigate('/'));
+              }}>Sign out</Button>
+          </span>)
+        }
+      </Grid>
+    </Grid>
+
+ 
     </Toolbar>
   </AppBar>
 );

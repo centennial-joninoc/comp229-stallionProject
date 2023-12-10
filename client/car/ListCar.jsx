@@ -18,9 +18,18 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { remove } from "./api-car.js";
 import { Navigate } from "react-router-dom";
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+import carImg from './../assets/images/car.png';
+
 const useStyles = makeStyles((theme) => ({
   card: {
-    // Define your card styles here
+    margin: 20
   },
   textField: {
     // Define your text field styles here
@@ -32,10 +41,17 @@ const useStyles = makeStyles((theme) => ({
     // Define your submit button styles here
   },
   title: {
-    // Define your title styles here
+    paddingTop: 20,
+    paddingLeft: 20
   },
   root: {
-    // Define your root styles here
+    margin:20
+  },
+  media: {
+    minHeight: 150,
+    backgroundSize: 'contain',
+    margin: 10,
+    backgroundColor: '#8f8073',
   },
 }));
 
@@ -81,38 +97,73 @@ export default function Cars() {
   const classes = useStyles();
   return (
     <Paper className={classes.root} elevation={4}>
-      <Typography variant="h6" className={classes.title}>
+      <Typography variant="h4" className={classes.title}>
         All Cars
       </Typography>
-      <List dense>
+
+      
+      <Grid container>
         {cars.map((car, i) => {
           return (
-            // <Link component={RouterLink} to={"/car/" + item._id} key={i}>
-              <ListItem button key={i}>
-              <ListItemText primary={i+1} />
-                <ListItemText primary={car.model} />
-                <ListItemText primary={car.description} />
-                <ListItemText primary={car.year} />
-                <ListItemText primary={car.seats} />
-                <ListItemText primary={car.transmission} />
-                <ListItemText primary={car.fuelType} />
-                <ListItemText primary={car.mileage} />
-                <ListItemSecondaryAction>
-                  <RouterLink to={"/listCar/edit/" + car._id}>
-                    <IconButton aria-label="Edit" color="primary">
-                      <EditIcon />
-                    </IconButton>
-                  </RouterLink>
-                  <IconButton aria-label="Delete" onClick={() => deleteCar(car._id)} color="secondary">
-                    <DeleteForeverIcon />
-                  </IconButton>
+              <Grid xs={3} button key={i}>
+                <Card className={classes.card} variant="outlined">
+                  <CardMedia sx={{ height: 140 }} className={classes.media} image={carImg} title="Car"/>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {car.model}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {car.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Chip label={car.year} variant="outlined" />
+                      <Chip label={car.seats} variant="outlined" />
+                      <Chip label={car.transmission} variant="outlined" />
+                      <Chip label={car.fuelType} variant="outlined" />
+                      <Chip label={car.mileage} variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button size="small" color="primary">
+                        <RouterLink to={"/listCar/edit/" + car._id}>Edit</RouterLink>
+                      </Button>
+                      <Button size="small">Learn More</Button>
+                    </Grid>
+                  </Grid>
+                  
 
-                </ListItemSecondaryAction>
-              </ListItem>
+                  </CardActions>
+                </Card>
+              </Grid>
+
+            // <Link component={RouterLink} to={"/car/" + item._id} key={i}>
+              // <ListItem button key={i}>
+              // <ListItemText primary={i+1} />
+              //   <ListItemText primary={car.model} />
+              //   <ListItemText primary={car.description} />
+              //   <ListItemText primary={car.year} />
+              //   <ListItemText primary={car.seats} />
+              //   <ListItemText primary={car.transmission} />
+              //   <ListItemText primary={car.fuelType} />
+              //   <ListItemText primary={car.mileage} />
+              //   <ListItemSecondaryAction>
+              //     <RouterLink to={"/listCar/edit/" + car._id}>
+              //       <IconButton aria-label="Edit" color="primary">
+              //         <EditIcon />
+              //       </IconButton>
+              //     </RouterLink>
+              //     <IconButton aria-label="Delete" onClick={() => deleteCar(car._id)} color="secondary">
+              //       <DeleteForeverIcon />
+              //     </IconButton>
+
+              //   </ListItemSecondaryAction>
+              // </ListItem>
             // </Link>
           );
         })}
-      </List>
+      </Grid>
     </Paper>
   );
 }

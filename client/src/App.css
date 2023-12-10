@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+@font-face {
+  font-family: 'Montserrat';
+  src: local('Montserrat'),
+       url('./../assets/fonts/Montserrat-Regular.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Merriweather';
+  src: local('Merriweather'),
+       url('./../assets/fonts/Merriweather-BoldItalic.ttf') format('ttf');
+}
