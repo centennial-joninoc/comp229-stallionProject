@@ -5,6 +5,10 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import HomeIcon from '@material-ui/icons/Home'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import WebIcon from '@material-ui/icons/Web';
+import PersonIcon from '@material-ui/icons/Person';
 import InputIcon from '@material-ui/icons/Input'
 import Button from '@material-ui/core/Button'
 import auth from '../lib/auth-helper'
