@@ -30,15 +30,15 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import unicornbikeImg from './../assets/images/unicornbikeImg.jpg';
-import teamLogoImg from './../assets/images/TeamLogo.png';
+import teamLogoImg from './../assets/images/CarBnb.jpg';
 import { Link } from 'react-router-dom';
-import auth from '../lib/auth-helper'
-
+import Grid from '@material-ui/core/Grid'
+   
 const useStyles = makeStyles(theme => ({
   card: {
     width: '90%',
     margin: 'auto',
-    backgroundColor: '#283438',
+    backgroundColor: '#eae6e5',
     marginTop: theme.spacing(5),
   },
   title: {
@@ -46,37 +46,41 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.openTitle,
   },
   media: {
-    minHeight: 400,
-    backgroundSize: 'contain'
+    minHeight: 900,
+    backgroundSize: 'cover'
   },
   content: {
     textAlign: 'center',
   },
-  homeBtn: {
+  regBtn: {
+    height: 70,
+    width: 300,
+    margin: 10,
+    backgroundColor: '#5b9279',
+    color: '#fff'
+  },
+  browseBtn: {
     height: 70,
     width: 300,
     margin: 10
   }
 }));
 
+
 export default function Home(){ 
 const classes = useStyles()
 return (
-<Card className={classes.card}>
-  <CardMedia className={classes.media} image={teamLogoImg} title="Team Logo"/>
-  {
-    auth.isAuthenticated() && (
-      <span>
-        <CardContent className={classes.content}>
-    <Button className={classes.homeBtn} variant="contained" href="/addCar">Register your car</Button>
-    <Button className={classes.homeBtn} variant="outlined" color="secondary" size="large" href="/listCar">Browse cars</Button> 
-
-  </CardContent>
-      </span>
-    )
-  }
-  
-</Card> 
+  <Grid container spacing={2}>
+  <Grid item xs={12}>
+    <Card className={classes.card}>
+    <CardMedia className={classes.media} image={teamLogoImg} title="Team Logo"/>
+  </Card>
+  </Grid>
+  <Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
+    <Button className={classes.regBtn} variant="contained" href="/addCar">Register your car</Button>
+    <Button className={classes.browseBtn} variant="outlined" size="large" href="/listCar">Browse cars</Button> 
+  </Grid>
+</Grid>
 
 )
 }
