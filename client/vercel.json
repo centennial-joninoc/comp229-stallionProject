@@ -6,5 +6,6 @@
         "use": "@vercel/node"
       }
     ],
-    "cleanUrls": true
+      "rewrites": [{ "source": "/(.*)", "destination": "/Home.jsx" }]
+    
   }
