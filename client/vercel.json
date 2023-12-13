@@ -6,6 +6,12 @@
         "use": "@vercel/node"
       }
     ],
-      "routes": [{ "source": "/(.*)", "destination": "./core/Home.jsx" }]
+      "redirects": [
+        { "source": "/(.*)", "destination": "./core/Home.jsx" },
+        {
+          "source": "/view-source",
+          "destination": "https://github.com/centennial-joninoc/comp229-stallionProject"
+        }
+      ]
     
   }
