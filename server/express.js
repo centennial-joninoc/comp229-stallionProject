@@ -15,9 +15,6 @@ const app = express();
 const CURRENT_WORKING_DIR = process.cwd();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/users", userRoutes);
-app.use("/", authRoutes);
-app.use("/cars", carRoutes);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -32,4 +29,9 @@ app.use((err, req, res, next) => {
     console.log(err);
   }
 });
+
+app.use("/users", userRoutes);
+app.use("/", authRoutes);
+app.use("/cars", carRoutes);
+
 export default app;
